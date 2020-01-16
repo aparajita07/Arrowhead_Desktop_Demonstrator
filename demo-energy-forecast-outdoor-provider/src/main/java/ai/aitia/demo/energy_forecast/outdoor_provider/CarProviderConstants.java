@@ -1,0 +1,28 @@
+package ai.aitia.demo.energy_forecast.outdoor_provider;
+
+public class CarProviderConstants {
+
+	public static final String BASE_PACKAGE = "ai.aitia";
+
+	public static final String CREATE_CAR_SERVICE_DEFINITION = "create-car";
+	public static final String GET_CAR_SERVICE_DEFINITION = "get-car";
+	public static final String GET_SERVO_SERVICE_DEFINITION = "get-servo";
+	public static final String INTERFACE_SECURE = "HTTPS-SECURE-JSON";
+	public static final String INTERFACE_INSECURE = "HTTP-INSECURE-JSON";
+	public static final String HTTP_METHOD = "http-method";
+	public static final String CAR_URI = "/servo";
+	public static final String BY_ID_PATH = "/{id}";
+	public static final String PATH_VARIABLE_ID = "id";
+	public static final String REQUEST_PARAM_KEY_ServoPosition = "request-param-SeroPosition";
+	public static final String REQUEST_PARAM_ServoPosition = "ServoPosition";
+	public static final String REQUEST_PARAM_KEY_Location = "request-param-Location";
+	public static final String REQUEST_PARAM_Location = "Location";
+
+	// =================================================================================================
+	// assistant methods
+
+	// -------------------------------------------------------------------------------------------------
+	private CarProviderConstants() {
+		throw new UnsupportedOperationException();
+	}
+}
