@@ -27,6 +27,7 @@ import eu.arrowhead.common.dto.shared.OrchestrationResultDTO;
 import eu.arrowhead.common.dto.shared.ServiceInterfaceResponseDTO;
 import eu.arrowhead.common.dto.shared.ServiceQueryFormDTO;
 import eu.arrowhead.common.exception.InvalidParameterException;
+import eu.arrowhead.common.exception.UnavailableServerException;
 
 @SpringBootApplication
 @ComponentScan(basePackages = {CommonConstants.BASE_PACKAGE, CarConsumerConstants.BASE_PACKAGE})
@@ -72,8 +73,9 @@ public class CarConsumerMain implements ApplicationRunner {
     	
 		final Builder orchestrationFormBuilder1 = arrowheadService.getOrchestrationFormBuilder();
 		final OrchestrationFormRequestDTO orchestrationFormRequest1= orchestrationFormBuilder1.requestedService(serviceQueryForm1)
-																					   .flag(Flag.MATCHMAKING, true)
+																					   .flag(Flag.MATCHMAKING, false)
 																					   .flag(Flag.OVERRIDE_STORE, true)
+																					   //.flag(Flag.PING_PROVIDERS, true)
 																					   .build();
 		
 		printOut(orchestrationFormRequest1);		
@@ -89,6 +91,9 @@ public class CarConsumerMain implements ApplicationRunner {
 			logger.info("No provider found during the orchestration");
 		} 
 			
+		System.out.println("provider Name: "+orchestrationResponse1.getResponse().get(0).getProvider().getSystemName()+
+				"Provider address: "+orchestrationResponse1.getResponse().get(0).getProvider().getAddress()+":"+orchestrationResponse1.getResponse().get(0).getProvider().getPort());
+		
 		
 		logger.info("Orchestration request for " + CarConsumerConstants.GET_SERVO_SERVICE_DEFINITION + " service:");
 		  
@@ -115,18 +120,20 @@ public class CarConsumerMain implements ApplicationRunner {
 			logger.info("No provider found during the orchestration");
 		}
 		
-		    for(int i=0;i<5;i++) {
-			
-		    final OrchestrationResultDTO orchestrationResult1 = orchestrationResponse1.getResponse().get(0);
-			validateOrchestrationResult(orchestrationResult1, CarConsumerConstants.GET_TEMP_SERVICE_DEFINITION);
+		
+		   OrchestrationResultDTO orchestrationResult1 = orchestrationResponse1.getResponse().get(0);
+		    for(int i=0;i<7;i++) {
+			try {
+		    
+			    validateOrchestrationResult(orchestrationResult1, CarConsumerConstants.GET_TEMP_SERVICE_DEFINITION);
 
-				final CarRequestDTO tempReq = new CarRequestDTO("Temperature", "Indoor");
+				CarRequestDTO tempReq = new CarRequestDTO("Temperature", "Indoor");
 				
 			
 					logger.info("Fetch Temperature Request:");
 					printOut(tempReq);
-					final String token = orchestrationResult1.getAuthorizationTokens() == null ? null : orchestrationResult1.getAuthorizationTokens().get(getInterface());
-					final CarResponseDTO tempFetched = arrowheadService.consumeServiceHTTP(CarResponseDTO.class, HttpMethod.valueOf(orchestrationResult1.getMetadata().get(CarConsumerConstants.HTTP_METHOD)),
+					String token = orchestrationResult1.getAuthorizationTokens() == null ? null : orchestrationResult1.getAuthorizationTokens().get(getInterface());
+					CarResponseDTO tempFetched = arrowheadService.consumeServiceHTTP(CarResponseDTO.class, HttpMethod.valueOf(orchestrationResult1.getMetadata().get(CarConsumerConstants.HTTP_METHOD)),
 							orchestrationResult1.getProvider().getAddress(), orchestrationResult1.getProvider().getPort(), orchestrationResult1.getServiceUri(),
 							getInterface(), token, tempReq, new String[0]);
 					logger.info("Temperature Provider response");
@@ -135,14 +142,21 @@ public class CarConsumerMain implements ApplicationRunner {
 					System.out.println("\n\n");
 					tempValue=tempFetched.getId();
 					Thread.sleep(2000);		
-
+			}
+			catch(Exception UnavailableServerException) {
+				System.out.println(orchestrationResponse1.getResponse().get(0).getProvider().getSystemName()+ " service unavailable");
+				orchestrationResult1= orchestrationResponse1.getResponse().get(1);
+				System.out.println("\nSwitching to provider: "+orchestrationResult1.getProvider().getSystemName()+":"+orchestrationResponse1.getResponse().get(1).getProvider().getAddress()+":"+orchestrationResponse1.getResponse().get(1).getProvider().getPort());
+				Thread.sleep(2000);
+				System.out.println("\n");
+			}
 			//---------------------------------------------------------------------------------------
 
 				final OrchestrationResultDTO orchestrationResult2 = orchestrationResponse2.getResponse().get(0);
 				validateOrchestrationResult(orchestrationResult2, CarConsumerConstants.GET_SERVO_SERVICE_DEFINITION);
 				
 				if(tempValue >= 25.00){
-					final ServoRequestDTO servoReq = new ServoRequestDTO("200", "Indoor");
+					final ServoRequestDTO servoReq = new ServoRequestDTO("180", "Indoor");
 					logger.info("Sending Servo Position Request:");
 					printOut(servoReq);
 					final String token1 = orchestrationResult2.getAuthorizationTokens() == null ? null : orchestrationResult2.getAuthorizationTokens().get(getInterface());
@@ -156,7 +170,7 @@ public class CarConsumerMain implements ApplicationRunner {
 					Thread.sleep(2000);		
 		        }
 		        else if(tempValue < 25.00){
-		        	final ServoRequestDTO servoReq = new ServoRequestDTO("100", "Indoor");
+		        	final ServoRequestDTO servoReq = new ServoRequestDTO("90", "Indoor");
 					logger.info("Sending Servo Position Request:");
 					printOut(servoReq);
 					final String token2 = orchestrationResult2.getAuthorizationTokens() == null ? null : orchestrationResult2.getAuthorizationTokens().get(getInterface());

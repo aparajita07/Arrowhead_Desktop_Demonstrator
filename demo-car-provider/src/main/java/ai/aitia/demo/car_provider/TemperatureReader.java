@@ -18,7 +18,7 @@ public class TemperatureReader {
 		  ExecCommand piCom = new ExecCommand();
 	    	//piCom.ExecCommand("sudo modprobe w1-gpio");
 	    	//piCom.ExecCommand("sudo modprobe w1-therm");
-	    	String rawTemp = piCom.ExecCommand("cd /sys/bus/w1/devices/28-00000931128a; cat w1_slave");
+	    	String rawTemp = piCom.ExecCommand("cd /sys/bus/w1/devices/28-00000930330b; cat w1_slave");
 	    	String temp1=rawTemp.substring(69);
 	    	Double temp2= Double.parseDouble(temp1);
 	    	temp2= temp2/1000;
