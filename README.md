@@ -1,5 +1,5 @@
 # Arrowhead Desktop Demonstrator (Java Spring-Boot)
-##### The project provides Arrowhead v4.1.3 Clients demo implementation developed from [client-skeleton project](https://github.com/arrowhead-f/client-skeleton-java-spring)
+##### The project provides Arrowhead v4.1.3 Clients demo implementation developed from [sos-examples-spring](https://github.com/arrowhead-f/client-skeleton-java-spring)
 
 ## Overview
 The goal of the project is to simply demonstrate how a consumer could orchestrate for a service and consume it afterward.
