@@ -8,8 +8,8 @@ import com.jcraft.jsch.Session;
 
 public class Rspi4Connection {
 	public Session Rspi4Connection() throws JSchException{
-		String user = "pi";
-	    String password = "appyjita7*";
+		String user = "<UserName>";
+	    String password = "<password>";
 	    String host = "130.240.234.166";
 	    int port = 22;
 
