@@ -22,3 +22,8 @@ The connections we made are listed below. Refer to Figure 1 to find what pins to
 - Servo motor Ground to pin 14, Ground
 - Servo motor Power to pin 4, 5.0 VDC Power
 - Servo motor Control to pin 32, GPIO 26
+
+
+
+## UML of the SOS
+![Authorization_crosscheck]()
