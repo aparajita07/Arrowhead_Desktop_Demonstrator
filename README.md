@@ -26,4 +26,4 @@ The connections we made are listed below. Refer to Figure 1 to find what pins to
 
 
 ## UML of the SOS
-![Authorization_crosscheck]()
+![Authorization_crosscheck](uml.PNG)
