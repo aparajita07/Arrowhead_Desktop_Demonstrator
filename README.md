@@ -5,8 +5,8 @@ The Desktop demonstrator is a SOS with several temperature sensors and one servo
 
 ### Hardware used
 
-- Raspberry Pi 3 B/B+
-- 1-wire temperature sensor, we used DS18B20
+- Raspberry Pi 4 B/B+
+- Two 1-wire temperature sensors
 - Servo motor
 - Breadboard
 - 4.7k Ohm resistor
