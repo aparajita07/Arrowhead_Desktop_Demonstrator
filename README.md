@@ -30,7 +30,11 @@ The connections we made are listed below. Refer to Figure 1 to find what pins to
 
 ## Application Systems in the Arrowhead Cloud:
 ### demo-car-consumer
+This is the Consumer in the SOS.
 ### demo-energy-forecast-indoor-provider
+This is the provider which fetches temperature from temperature sensor 1
 ### demo-car-provider
+This is the provider which fetches temperature from temperature sensor 2
 ### demo-energy-forecast-outdoor-provider
+This is the provider which receive POST request from the consumer for setting up the servo position.
 
