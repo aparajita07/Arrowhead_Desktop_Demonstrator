@@ -27,3 +27,10 @@ The connections we made are listed below. Refer to Figure 1 to find what pins to
 
 ## UML of the SOS
 ![Authorization_crosscheck](uml.PNG)
+
+## Application Systems in the Arrowhead Cloud:
+### demo-car-consumer
+### demo-energy-forecast-indoor-provider
+### demo-car-provider
+### demo-energy-forecast-outdoor-provider
+
